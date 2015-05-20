@@ -1,3 +1,9 @@
+require 'io/console'
+
+
+
+
+
 module Guessr
   class Menu
     def initialize
@@ -53,6 +59,7 @@ module Guessr
     def run
       welcome
       choose_player
+      scoreboard_login
       while play_again?
         choose_game
         @game.play
@@ -69,6 +76,39 @@ module Guessr
       end
       result.downcase == 'y'
     end
+
+    def scoreboard_login
+      puts `clear`
+      puts "Would you like to see the Highscores? (Y/N) "
+      input = STDIN.getch.downcase
+      until =~ /^[yn]$/i
+        puts "Wrong key silly, please try again"
+        input = STDIN.getch.downcase
+      end
+      if input == "y"
+        scoreboard
+      end
+
+    end
+
+    def scoreboard
+
+      puts "These are the top winrars!"
+
+      Player.all.order(score: :desc).each do |z|
+
+      puts "Player:#{z.name}Score:#{z.score}"
+    end
+
+
+
+
+
+
+
+
+
+   end
 
     def welcome
       puts "\n\n"
